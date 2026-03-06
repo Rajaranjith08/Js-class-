@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Seat Booking</title>
+
+        <style>
+
+            body{
+                font-family: Arial;
+                text-align:center;
+            }
+
+            .seat{
+                width:70px;
+                height:50px;
+                margin:8px;
+                border:none;
+                cursor:pointer;
+                font-weight:bold;
+            }
+
+            .available{
+                background:lightgreen;
+            }
+
+            .selected{
+                background:orange;
+            }
+
+            .booked{
+                background:red;
+                color:white;
+            }
+
+            #form{
+                margin-top:30px;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <h2>Select Maximum 3 Seats</h2>
+
+        <div id="seatContainer"></div>
+
+        <div id="form">
+
+            <input type="text" id="name" placeholder="Enter your name">
+
+            <button onclick="submitBooking()">Submit</button>
+
+        </div>
+
+        <script>
+
+            const TOTAL_SEATS = 10;
+
+            let seats = new Array(TOTAL_SEATS).fill(null);
+
+            let selectedSeats = [];
+
+            function renderSeats(){
+
+            const container = document.getElementById("seatContainer");
+
+            container.innerHTML="";
+
+            for(let i=0;i<TOTAL_SEATS;i++){
+
+                let btn = document.createElement("button");
+
+                btn.innerText="Seat "+(i+1);
+
+                btn.classList.add("seat");
+
+                if(seats[i] !== null){
+
+                    btn.classList.add("booked");
+
+                }else if(selectedSeats.includes(i)){
+
+                    btn.classList.add("selected");
+
+                }else{
+
+                    btn.classList.add("available");
+
+                }
+
+                btn.onclick = ()=> selectSeat(i);
+
+                container.appendChild(btn);
+
+                }
+
+            }
+
+            function selectSeat(index){
+
+            if(seats[index] !== null){
+
+                alert("Seat already booked by "+seats[index]);
+
+                return;
+
+            }
+
+            if(selectedSeats.includes(index)){
+
+                selectedSeats = selectedSeats.filter(s => s !== index);
+
+            }else{
+
+                if(selectedSeats.length >= 3){
+
+                    alert("You can only select up to 3 seats");
+
+                    return;
+
+                }
+
+                selectedSeats.push(index);
+
+            }
+
+            renderSeats();
+
+            }
+
+            function submitBooking(){
+
+                let name = document.getElementById("name").value;
+
+                if(name === ""){
+
+                    alert("Please enter your name");
+
+                    return;
+
+                }
+
+                if(selectedSeats.length === 0){
+
+                    alert("Please select at least one seat");
+
+                    return;
+
+                }
+
+
+                // For loop method
+
+                for (let i = 0; i < selectedSeats.length; i++) {
+
+                    let seatIndex = selectedSeats[i];
+
+                    seats[seatIndex] = name;
+                }
+
+
+                // ForEach method
+                selectedSeats.forEach(seatIndex => {
+
+                    seats[seatIndex] = name;
+
+                });
+                alert("Seats "+ selectedSeats.map(s=>s+1).join(", ") +" booked for "+name);
+
+                selectedSeats = [];
+
+                document.getElementById("name").value="";
+
+                renderSeats();
+
+            }
+
+            renderSeats();
+
+        </script>
+
+    </body>
+
+</html>
