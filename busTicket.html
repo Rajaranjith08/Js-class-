@@ -65,39 +65,57 @@
 
             let selectedSeats = [];
 
-            function renderSeats(){
-
             const container = document.getElementById("seatContainer");
 
-            container.innerHTML="";
 
-            for(let i=0;i<TOTAL_SEATS;i++){
+            let startBooking = confirm("Do you want to book a ticket?\nPress OK for Yes");
 
-                let btn = document.createElement("button");
+            if (!startBooking) {
 
-                btn.innerText="Seat "+(i+1);
+                // alert("Booking cancelled.");
+                alert("Thank you. Visit again!");
 
-                btn.classList.add("seat");
+                document.getElementById("seatContainer").innerHTML =
+                "<h3>Booking Closed</h3>";
 
-                if(seats[i] !== null){
+            } else {
 
-                    btn.classList.add("booked");
+                renderSeats();
 
-                }else if(selectedSeats.includes(i)){
+            }
 
-                    btn.classList.add("selected");
+            function renderSeats(){
 
-                }else{
 
-                    btn.classList.add("available");
+                container.innerHTML="";
 
-                }
+                for(let i=0;i<TOTAL_SEATS;i++){
 
-                btn.onclick = ()=> selectSeat(i);
+                    let btn = document.createElement("button");
 
-                container.appendChild(btn);
+                    btn.innerText="Seat "+(i+1);
 
-                }
+                    btn.classList.add("seat");
+
+                    if(seats[i] !== null){
+
+                        btn.classList.add("booked");
+
+                    }else if(selectedSeats.includes(i)){
+
+                        btn.classList.add("selected");
+
+                    }else{
+
+                        btn.classList.add("available");
+
+                    }
+
+                    btn.onclick = ()=> selectSeat(i);
+
+                    container.appendChild(btn);
+
+                    }
 
             }
 
@@ -106,7 +124,7 @@
                 if(!seats.includes(null)){
                     alert("All bus seats are filled!");
                 }
-                
+
                 if(seats[index] !== null){
 
                     alert("Seat already booked by "+seats[index].name);
@@ -143,10 +161,38 @@
                 let date = document.getElementById("date").value;
                 let from = document.getElementById("from").value;
                 let to = document.getElementById("to").value;
+                // console.log(container.innerHTML)
+                
+                if(container.innerHTML === "<h3>Booking Closed</h3>"){
+                    alert("Booking Closed");
+
+                    return;
+                }
 
                 if(name === ""){
 
                     alert("Please enter your name");
+
+                    return;
+
+                }
+                if(date === ""){
+
+                    alert("Please enter date");
+
+                    return;
+
+                }
+                if(from === ""){
+
+                    alert("Please enter from");
+
+                    return;
+
+                }
+                if(to === ""){
+
+                    alert("Please enter To");
 
                     return;
 
@@ -189,7 +235,8 @@
                 // });
                 // alert("Seats "+ selectedSeats.map(s=>s+1).join(", ") +" booked for "+name);
                 alert(
-                    "Seats " + selectedSeats.map(s=>s+1).join(", ") +
+                    "Number of ticked booked: " + selectedSeats.length+
+                    "\nSeats: " + selectedSeats.map(s=>s+1).join(", ") +
                     "\nName: " + name +
                     "\nDate: " + date +
                     "\nFrom: " + from +
@@ -207,7 +254,7 @@
 
             }
 
-            renderSeats();
+            // renderSeats();
 
         </script>
 
