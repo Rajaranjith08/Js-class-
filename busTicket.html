@@ -103,6 +103,10 @@
 
             function selectSeat(index){
 
+                if(!seats.includes(null)){
+                    alert("All bus seats are filled!");
+                }
+                
                 if(seats[index] !== null){
 
                     alert("Seat already booked by "+seats[index].name);
@@ -173,17 +177,24 @@
 
 
                 // ForEach method
-                selectedSeats.forEach(seatIndex => {
+                // selectedSeats.forEach(seatIndex => {
 
-                    seats[seatIndex] = {
-                        name,
-                        from,
-                        to,
-                        date
-                    };
+                //     seats[seatIndex] = {
+                //         name,
+                //         from,
+                //         to,
+                //         date
+                //     };
 
-                });
-                alert("Seats "+ selectedSeats.map(s=>s+1).join(", ") +" booked for "+name);
+                // });
+                // alert("Seats "+ selectedSeats.map(s=>s+1).join(", ") +" booked for "+name);
+                alert(
+                    "Seats " + selectedSeats.map(s=>s+1).join(", ") +
+                    "\nName: " + name +
+                    "\nDate: " + date +
+                    "\nFrom: " + from +
+                    "\nTo: " + to
+                );
 
                 selectedSeats = [];
 
