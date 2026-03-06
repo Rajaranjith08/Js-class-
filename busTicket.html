@@ -49,6 +49,9 @@
         <div id="form">
 
             <input type="text" id="name" placeholder="Enter your name">
+            <input type="date" id="date" placeholder="Select a date ">
+            <input type="text" id="from" placeholder="From">
+            <input type="text" id="to" placeholder="To">
 
             <button onclick="submitBooking()">Submit</button>
 
@@ -100,39 +103,42 @@
 
             function selectSeat(index){
 
-            if(seats[index] !== null){
+                if(seats[index] !== null){
 
-                alert("Seat already booked by "+seats[index]);
-
-                return;
-
-            }
-
-            if(selectedSeats.includes(index)){
-
-                selectedSeats = selectedSeats.filter(s => s !== index);
-
-            }else{
-
-                if(selectedSeats.length >= 3){
-
-                    alert("You can only select up to 3 seats");
+                    alert("Seat already booked by "+seats[index].name);
 
                     return;
 
                 }
 
-                selectedSeats.push(index);
+                if(selectedSeats.includes(index)){
 
-            }
+                    selectedSeats = selectedSeats.filter(s => s !== index);
 
-            renderSeats();
+                }else{
+
+                    if(selectedSeats.length >= 3){
+
+                        alert("You can only select up to 3 seats");
+
+                        return;
+
+                    }
+
+                    selectedSeats.push(index);
+
+                }
+
+                renderSeats();
 
             }
 
             function submitBooking(){
 
                 let name = document.getElementById("name").value;
+                let date = document.getElementById("date").value;
+                let from = document.getElementById("from").value;
+                let to = document.getElementById("to").value;
 
                 if(name === ""){
 
@@ -157,14 +163,24 @@
 
                     let seatIndex = selectedSeats[i];
 
-                    seats[seatIndex] = name;
+                    seats[seatIndex] = {
+                        name,
+                        from,
+                        to,
+                        date
+                    };
                 }
 
 
                 // ForEach method
                 selectedSeats.forEach(seatIndex => {
 
-                    seats[seatIndex] = name;
+                    seats[seatIndex] = {
+                        name,
+                        from,
+                        to,
+                        date
+                    };
 
                 });
                 alert("Seats "+ selectedSeats.map(s=>s+1).join(", ") +" booked for "+name);
@@ -172,6 +188,9 @@
                 selectedSeats = [];
 
                 document.getElementById("name").value="";
+                document.getElementById("date").value="";
+                document.getElementById("from").value="";
+                document.getElementById("to").value="";
 
                 renderSeats();
 
